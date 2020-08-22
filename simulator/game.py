@@ -2,10 +2,9 @@ import random
 
 from simulator.code import Code
 from simulator.color import Color
-from simulator.player import Player
-from simulator.random_player import RandomPlayer
+from players.player import Player
+from players.random_player import RandomPlayer
 from simulator.reward import Reward
-from simulator.user_player import UserPlayer
 
 
 class Game:

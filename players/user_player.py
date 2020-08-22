@@ -1,8 +1,6 @@
-import random
-
 from simulator.code import Code
 from simulator.color import Color
-from simulator.player import Player
+from players.player import Player
 
 
 class UserPlayer(Player):

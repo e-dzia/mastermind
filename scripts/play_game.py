@@ -1,5 +1,5 @@
 from simulator.game import Game
-from simulator.user_player import UserPlayer
+from players.user_player import UserPlayer
 
 print("ready")
 game = Game(UserPlayer())
