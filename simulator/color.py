@@ -8,6 +8,6 @@ class Color(enum.Enum):
     RED = 3
     PINK = 4
     PURPLE = 5
-    BLUE = 6
-    GREEN = 7
+    # BLUE = 6
+    # GREEN = 7
     EMPTY = 8

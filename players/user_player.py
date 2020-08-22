@@ -1,10 +1,10 @@
-from simulator.code import Code
+from simulator.game_code import Code
 from simulator.color import Color
 from players.player import Player
 
 
 class UserPlayer(Player):
-    def next_code(self):
+    def next_code(self, round=0):
         print("""                    WHITE = 0
                     YELLOW = 1
                     ORANGE = 2
