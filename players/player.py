@@ -17,9 +17,9 @@ class Player:
     def next_code(self, round=0):
         return NotImplementedError
 
-    def set_results(self, code: Code, same_color_and_spot: int,
+    def set_results(self, same_color_and_spot: int,
                     same_color: int):
-        self.history.append({'code': code,
+        self.history.append({'code': self.code,
                              'same_color_and_spot': same_color_and_spot,
                              'same_color': same_color})
 
@@ -31,10 +31,10 @@ class Player:
         i = 0
         for i in range(rounds):
             logger.info(f"### ROUND {i} ###")
-            player_code = self.next_code(i)
-            same_color, same_color_and_spot, points, won = game.play_round(player_code)
+            self.code = self.next_code(i)
+            same_color, same_color_and_spot, points, won = game.play_round(self.code)
             if won:
                 break
-            self.set_results(player_code, same_color_and_spot, same_color)
+            self.set_results(same_color_and_spot, same_color)
         logger.info(f"Good code: {self.code}")
         return i

@@ -39,7 +39,7 @@ def main_experiments():
         code = Code(*possible_code)
         player = SmartPlayer()
         round = player.play_game(50, code)
-        rounds.append(round)
+        rounds.append(round + 1)
     print(f"Mean: {np.mean(rounds)}")
     print(f"Max: {max(rounds)}")
     print(f"Min: {min(rounds)}")
