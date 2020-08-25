@@ -2,9 +2,7 @@ import itertools
 import os
 
 from players.smart_player import SmartPlayer
-from players.random_player import RandomPlayer
 from simulator.color import Color
-from simulator.mastermind_game import MastermindGame
 from players.user_player import UserPlayer
 import logging
 import numpy as np
@@ -40,6 +38,7 @@ def main_experiments():
         player = SmartPlayer()
         round = player.play_game(50, code)
         rounds.append(round + 1)
+    print(f"Number of games: {len(rounds)}")
     print(f"Mean: {np.mean(rounds)}")
     print(f"Max: {max(rounds)}")
     print(f"Min: {min(rounds)}")

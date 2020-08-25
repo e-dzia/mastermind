@@ -1,10 +1,7 @@
 import logging
-import random
 
-from simulator.mastermind_game import MastermindGame
 from simulator.game_code import Code
-from simulator.color import Color
-
+from simulator.mastermind_game import MastermindGame
 
 logger = logging.getLogger(__name__)
 
