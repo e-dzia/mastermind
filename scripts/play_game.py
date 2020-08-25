@@ -4,7 +4,7 @@ import os
 from players.smart_player import SmartPlayer
 from players.random_player import RandomPlayer
 from simulator.color import Color
-from simulator.game import Game
+from simulator.mastermind_game import MastermindGame
 from players.user_player import UserPlayer
 import logging
 import numpy as np
@@ -15,14 +15,12 @@ from simulator.game_code import Code
 def main_single():
     logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-
     print("ready")
 
-    game = Game(SmartPlayer(), Code(Color.ORANGE, Color.PURPLE,
-                                    Color.ORANGE, Color.YELLOW))
-    round = game.play_game(50)
+    code = Code(Color.ORANGE, Color.PURPLE, Color.ORANGE, Color.YELLOW)
+    player = SmartPlayer()
+
+    round = player.play_game(50, code)
 
     print(round)
 
@@ -38,8 +36,9 @@ def main_experiments():
     rounds = []
     for possible_code in possible_codes:
         # print(possible_code)
-        game = Game(SmartPlayer(), Code(*possible_code))
-        round = game.play_game(50)
+        code = Code(*possible_code)
+        player = SmartPlayer()
+        round = player.play_game(50, code)
         rounds.append(round)
     print(f"Mean: {np.mean(rounds)}")
     print(f"Max: {max(rounds)}")
@@ -47,10 +46,11 @@ def main_experiments():
 
 
 def main_user():
-    game = Game(UserPlayer())
-    game.play_game()
+    logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+
+    player = UserPlayer()
+    player.play_game()
 
 
 if __name__ == "__main__":
-    main_single()
-
+    main_experiments()
