@@ -21,15 +21,15 @@ class MastermindGame:
         logger.info(self.code)
         # print(self.player)
 
-    def play_round(self, player_code):
+    def play_round(self, player_code, num_round):
         won = False
         logger.info(player_code)
         same_color_and_spot = self.code.count_same_color_and_spot(player_code)
         same_color = self.code.count_same_color(player_code)
         logger.info(f"Good color and spot: {same_color_and_spot}, good color, "
                     f"wrong spot: {same_color}")
-        points = self.code.evaluate(player_code)
+        points = self.code.evaluate(player_code, num_round + 1)
         logger.info(f"Points: {points}")
-        if points == Reward.WIN.value:
+        if self.code == player_code:
             won = True
         return same_color, same_color_and_spot, points, won

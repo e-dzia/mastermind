@@ -81,7 +81,7 @@ class TestCode(unittest.TestCase):
          Code(Color.PURPLE, Color.WHITE, Color.YELLOW, Color.PURPLE), 1000],
     ])
     def test_evaluate(self, name, c1: Code, c2: Code, result: int):
-        self.assertEqual(result, c1.evaluate(c2))
+        self.assertEqual(result, c1.evaluate(c2, 0))
 
     @parameterized.expand([
         ["false", Code(Color.PURPLE, Color.ORANGE, Color.PINK, Color.PINK),

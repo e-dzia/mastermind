@@ -15,18 +15,22 @@ class Code:
         else:
             return False
 
+    def __eq__(self, other):
+        return self.equals(other)
+
     def contains(self, color: Color):
         return color in self.colors
 
     def contains_in_spot(self, color: Color, spot: int):
         return color == self.colors[spot]
 
-    def evaluate(self, other):
+    def evaluate(self, other, used_tries):
         if self.equals(other):
-            return Reward.WIN.value
+            return Reward.WIN.value - used_tries * Reward.USED_TRIES.value
         return (self.count_same_color_and_spot(other) *
                 Reward.SAME_COLOR_AND_SPOT.value +
-                self.count_same_color(other) * Reward.SAME_COLOR.value)
+                self.count_same_color(other) * Reward.SAME_COLOR.value
+                - used_tries * Reward.USED_TRIES.value)
 
     def count_same_color_and_spot(self, other):
         count = 0

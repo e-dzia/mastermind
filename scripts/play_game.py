@@ -6,6 +6,7 @@ from simulator.color import Color
 from players.user_player import UserPlayer
 import logging
 import numpy as np
+import pandas as pd
 
 from simulator.game_code import Code
 
@@ -23,7 +24,7 @@ def main_single():
     print(round)
 
 
-def main_experiments():
+def main_experiments(strategy: Strategy = Strategy.FIRST):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
 
@@ -35,13 +36,14 @@ def main_experiments():
     for possible_code in possible_codes:
         # print(possible_code)
         code = Code(*possible_code)
-        player = SmartPlayer(strategy=Strategy.FIRST)
+        player = SmartPlayer(strategy=strategy)
         round = player.play_game(50, code)
         rounds.append(round + 1)
-    print(f"Number of games: {len(rounds)}")
-    print(f"Mean: {np.mean(rounds)}")
-    print(f"Max: {max(rounds)}")
-    print(f"Min: {min(rounds)}")
+    # print(f"Number of games: {len(rounds)}")
+    # print(f"Mean: {np.mean(rounds)}")
+    # print(f"Max: {max(rounds)}")
+    # print(f"Min: {min(rounds)}")
+    return np.mean(rounds), max(rounds)
 
 
 def main_user():
@@ -51,5 +53,36 @@ def main_user():
     player.play_game()
 
 
+def main_experiments_results():
+    results = pd.DataFrame()
+    res_mean, res_max = main_experiments(Strategy.FIRST)
+    results = results.append({'strategy': 'first', 'mean': res_mean,
+                              'max': res_max}, ignore_index=True)
+
+    print(results)
+
+    res_mean, res_max = main_experiments(Strategy.LAST)
+    results = results.append({'strategy': 'last', 'mean': res_mean,
+                              'max': res_max}, ignore_index=True)
+
+    print(results)
+
+    res_mean_list = []
+    res_max_list = []
+    for i in range(10):
+        print(i)
+        res_mean, res_max = main_experiments(Strategy.RANDOM)
+        res_mean_list.append(res_mean)
+        res_max_list.append(res_max)
+
+    results = results.append({'strategy': 'random',
+                              'mean': np.mean(res_mean_list),
+                              'max': max(res_max_list)}, ignore_index=True)
+
+    print(results)
+
+    results.to_csv('../results/results.csv')
+
+
 if __name__ == "__main__":
-    main_experiments()
+    main_experiments_results()

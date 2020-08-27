@@ -30,7 +30,8 @@ class Player:
         for i in range(rounds):
             logger.info(f"### ROUND {i} ###")
             self.code = self.next_code(i)
-            same_color, same_color_and_spot, points, won = game.play_round(self.code)
+            same_color, same_color_and_spot, points, won = (
+                game.play_round(self.code, i))
             if won:
                 break
             self.set_results(same_color_and_spot, same_color)
