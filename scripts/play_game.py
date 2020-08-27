@@ -1,7 +1,7 @@
 import itertools
 import os
 
-from players.smart_player import SmartPlayer
+from players.smart_player import SmartPlayer, Strategy
 from simulator.color import Color
 from players.user_player import UserPlayer
 import logging
@@ -35,7 +35,7 @@ def main_experiments():
     for possible_code in possible_codes:
         # print(possible_code)
         code = Code(*possible_code)
-        player = SmartPlayer()
+        player = SmartPlayer(strategy=Strategy.FIRST)
         round = player.play_game(50, code)
         rounds.append(round + 1)
     print(f"Number of games: {len(rounds)}")

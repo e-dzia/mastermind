@@ -16,9 +16,10 @@ class Player:
 
     def set_results(self, same_color_and_spot: int,
                     same_color: int):
-        self.history.append({'code': self.code,
-                             'same_color_and_spot': same_color_and_spot,
-                             'same_color': same_color})
+        if same_color_and_spot >= 0 and same_color >= 0:
+            self.history.append({'code': self.code,
+                                 'same_color_and_spot': same_color_and_spot,
+                                 'same_color': same_color})
 
     def __str__(self):
         return str(self.code)
