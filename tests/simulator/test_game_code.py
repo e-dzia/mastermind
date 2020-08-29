@@ -64,6 +64,9 @@ class TestCode(unittest.TestCase):
         ["difficult3",
          Code(Color.WHITE, Color.WHITE, Color.WHITE, Color.WHITE),
          Code(Color.WHITE, Color.WHITE, Color.YELLOW, Color.YELLOW), 0],
+        ["difficult4",
+         Code(Color.WHITE, Color.WHITE, Color.ORANGE, Color.YELLOW),
+         Code(Color.WHITE, Color.WHITE, Color.WHITE, Color.YELLOW), 0],
     ])
     def test_count_same_color(self, name, c1: Code, c2: Code, result: int):
         self.assertEqual(result, c1.count_same_color(c2))

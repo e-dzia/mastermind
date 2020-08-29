@@ -59,16 +59,16 @@ class SmartPlayer(Player):
         self._remove_same_color(same_color)
 
     def _remove_same_color(self, number_of_colors):
-        for possible_code in self.possible_codes[:]:
-            if (Code(*possible_code).count_same_color(self.code)
-                    != number_of_colors):
-                self._remove_code(possible_code)
+        self.possible_codes = [
+            possible_code for possible_code in self.possible_codes
+            if Code(*possible_code).count_same_color(self.code)
+               == number_of_colors]
 
     def _remove_same_color_and_spot(self, number_of_colors):
-        for possible_code in self.possible_codes[:]:
-            if (Code(*possible_code).count_same_color_and_spot(self.code)
-                    != number_of_colors):
-                self._remove_code(possible_code)
+        self.possible_codes = [
+            possible_code for possible_code in self.possible_codes
+            if Code(*possible_code).count_same_color_and_spot(self.code)
+               == number_of_colors]
 
     def _remove_code(self, code_to_remove):
         if code_to_remove in self.possible_codes:

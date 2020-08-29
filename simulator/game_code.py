@@ -33,32 +33,16 @@ class Code:
                 - used_tries * Reward.USED_TRIES.value)
 
     def count_same_color_and_spot(self, other):
-        count = 0
-        for color1, color2 in zip(self.colors, other.colors):
-            if color1 == color2:
-                count += 1
-        return count
+        return sum([color1 == color2
+                    for color1, color2 in zip(self.colors, other.colors)])
 
     def count_same_color(self, other):
-        count = 0
-        used_positions = []
-        for i, (color1, color2) in enumerate(zip(self.colors, other.colors)):
-            if color1 == color2:
-                used_positions.append(i)
-
-        for color1, color2 in zip(self.colors, other.colors):
-            if color1 != color2:
-                if self._has_same_color(other, color1, used_positions):
-                    count += 1
-        return count
-
-    def count_colors_sum(self, other):
-        count = 0
-        used_positions = []
-        for color1, color2 in zip(self.colors, other.colors):
-            if self._has_same_color(other, color1, used_positions):
-                count += 1
-        return count
+        used_positions = [i if color1 == color2 else None
+                          for i, (color1, color2) in
+                          enumerate(zip(self.colors, other.colors))]
+        return sum([color1 != color2 and
+                    self._has_same_color(other, color1, used_positions)
+                    for color1, color2 in zip(self.colors, other.colors)])
 
     @staticmethod
     def _has_same_color(other, color1, used_positions):

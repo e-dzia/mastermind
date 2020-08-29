@@ -1,3 +1,4 @@
+import datetime
 import itertools
 import os
 
@@ -11,13 +12,15 @@ import pandas as pd
 from simulator.game_code import Code
 
 
-def main_single():
+def main_single(strategy: Strategy = Strategy.FIRST, code: Code = None):
     logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
 
     print("ready")
 
-    code = Code(Color.ORANGE, Color.PURPLE, Color.ORANGE, Color.YELLOW)
-    player = SmartPlayer()
+    if code is None:
+        code = Code(Color.ORANGE, Color.PURPLE, Color.ORANGE, Color.YELLOW)
+
+    player = SmartPlayer(strategy)
 
     round = player.play_game(50, code)
 
@@ -39,10 +42,10 @@ def main_experiments(strategy: Strategy = Strategy.FIRST):
         player = SmartPlayer(strategy=strategy)
         round = player.play_game(50, code)
         rounds.append(round + 1)
-    # print(f"Number of games: {len(rounds)}")
-    # print(f"Mean: {np.mean(rounds)}")
-    # print(f"Max: {max(rounds)}")
-    # print(f"Min: {min(rounds)}")
+    print(f"Number of games: {len(rounds)}")
+    print(f"Mean: {np.mean(rounds)}")
+    print(f"Max: {max(rounds)}")
+    print(f"Min: {min(rounds)}")
     return np.mean(rounds), max(rounds)
 
 
@@ -85,4 +88,8 @@ def main_experiments_results():
 
 
 if __name__ == "__main__":
-    main_experiments_results()
+    start = datetime.datetime.now()
+    main_experiments(Strategy.FIRST)
+    # main_single(Strategy.FIRST, code=Code(Color.WHITE, Color.WHITE, Color.ORANGE, Color.YELLOW))
+    end = datetime.datetime.now()
+    print(f"Time: {end - start}")
