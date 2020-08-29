@@ -7,11 +7,11 @@ from simulator.game_code import Code
 from simulator.reward import Reward
 
 
-class MCTSNode(AnyNode):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+class MCTSNode():
+    def __init__(self, code: Code):
         self.games_performed = 0
         self.results = 0
+        self.code = code
 
     def perform_simulation(self, possible_codes_old: PossibleCodes,
                            next_code: Code=None, max_round_length=10):
@@ -33,3 +33,6 @@ class MCTSNode(AnyNode):
         self.games_performed += 1
         self.results += Reward.WIN.value - Reward.USED_TRIES.value * (i+1)
         return i
+
+    def __repr__(self):
+        return f"{self.code}, {self.games_performed}, {self.results}"

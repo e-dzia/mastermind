@@ -44,12 +44,16 @@ def main_experiments(player: Player = None):
 
     rounds = []
     for possible_code in possible_codes:
+        start = datetime.datetime.now()
+
         # print(possible_code)
         code = Code(*possible_code)
         player.reset()
         round = player.play_game(50, code)
         rounds.append(round + 1)
-        print(round + 1, end=", ")
+
+        end = datetime.datetime.now()
+        print(f"Code: {possible_code}, time: {end - start}, rounds: {round + 1}")
     print(f"Number of games: {len(rounds)}")
     print(f"Mean: {np.mean(rounds)}")
     print(f"Max: {max(rounds)}")
@@ -66,13 +70,13 @@ def main_user():
 
 def main_experiments_results():
     results = pd.DataFrame()
-    res_mean, res_max = main_experiments(SmartStrategy.FIRST)
+    res_mean, res_max = main_experiments(SmartPlayer(SmartStrategy.FIRST))
     results = results.append({'strategy': 'first', 'mean': res_mean,
                               'max': res_max}, ignore_index=True)
 
     print(results)
 
-    res_mean, res_max = main_experiments(SmartStrategy.LAST)
+    res_mean, res_max = main_experiments(SmartPlayer(SmartStrategy.LAST))
     results = results.append({'strategy': 'last', 'mean': res_mean,
                               'max': res_max}, ignore_index=True)
 
@@ -82,7 +86,7 @@ def main_experiments_results():
     res_max_list = []
     for i in range(10):
         print(i)
-        res_mean, res_max = main_experiments(SmartStrategy.RANDOM)
+        res_mean, res_max = main_experiments(SmartPlayer(SmartStrategy.RANDOM))
         res_mean_list.append(res_mean)
         res_max_list.append(res_max)
 
@@ -101,7 +105,9 @@ if __name__ == "__main__":
     # main_experiments(player=SmartPlayer(Strategy.FIRST))
     main_experiments(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD))
     # main_single(player=SmartPlayer(Strategy.FIRST), code=Code(Color.WHITE, Color.WHITE, Color.ORANGE, Color.YELLOW))
-    # main_single(player=MCTSPlayer(), code=Code(Color.PINK, Color.PURPLE, Color.WHITE, Color.RED))
+    # main_single(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD,
+    #                               num_simulations=100000),
+    #             code=Code(Color.PINK, Color.PURPLE, Color.WHITE, Color.RED))
 
     end = datetime.datetime.now()
     print(f"Time: {end - start}")
