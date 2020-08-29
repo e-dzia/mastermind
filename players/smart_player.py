@@ -23,6 +23,9 @@ class SmartPlayer(Player):
         self.player_colors = self.code.colors
         self.strategy = strategy
 
+    def reset(self):
+        self.__init__(self.strategy)
+
     def next_code(self, round=0):
         if len(self.history) == 0:
             self.code = Code(Color.WHITE, Color.WHITE,

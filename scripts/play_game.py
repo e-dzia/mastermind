@@ -2,6 +2,7 @@ import datetime
 import itertools
 import os
 
+from mcts.enums import MCTSStrategy
 from mcts.mcts_player import MCTSPlayer
 from players.player import Player
 from players.smart_player import SmartPlayer, SmartStrategy
@@ -30,7 +31,7 @@ def main_single(player: Player, code: Code = None):
     print(round + 1)
 
 
-def main_experiments(player: Player):
+def main_experiments(player: Player = None):
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.INFO)
 
@@ -38,13 +39,17 @@ def main_experiments(player: Player):
     colors.remove(Color.EMPTY)
     possible_codes = [p for p in itertools.product(colors, repeat=4)]
 
+    if player is None:
+        player = SmartPlayer(strategy=SmartStrategy.FIRST)
+
     rounds = []
     for possible_code in possible_codes:
         # print(possible_code)
         code = Code(*possible_code)
-        player = SmartPlayer(strategy=strategy)
+        player.reset()
         round = player.play_game(50, code)
         rounds.append(round + 1)
+        print(round + 1, end=", ")
     print(f"Number of games: {len(rounds)}")
     print(f"Mean: {np.mean(rounds)}")
     print(f"Max: {max(rounds)}")
@@ -94,9 +99,9 @@ if __name__ == "__main__":
     start = datetime.datetime.now()
 
     # main_experiments(player=SmartPlayer(Strategy.FIRST))
-    # main_experiments(player=MCTSPlayer())
+    main_experiments(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD))
     # main_single(player=SmartPlayer(Strategy.FIRST), code=Code(Color.WHITE, Color.WHITE, Color.ORANGE, Color.YELLOW))
-    main_single(player=MCTSPlayer(), code=Code(Color.PINK, Color.PURPLE, Color.WHITE, Color.RED))
+    # main_single(player=MCTSPlayer(), code=Code(Color.PINK, Color.PURPLE, Color.WHITE, Color.RED))
 
     end = datetime.datetime.now()
     print(f"Time: {end - start}")

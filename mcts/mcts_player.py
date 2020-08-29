@@ -9,6 +9,9 @@ class MCTSPlayer(SmartPlayer):
         self.tree = None
         self.strategy = strategy
 
+    def reset(self):
+        self.__init__(self.strategy)
+
     def next_code(self, round=0):
         if len(self.history) != 0:
             self.possible_codes.update(self.history[-1])

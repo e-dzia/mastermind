@@ -11,6 +11,9 @@ class Player:
         self.code = Code()
         self.history = []
 
+    def reset(self):
+        self.__init__()
+
     def next_code(self, round=0):
         return NotImplementedError
 
