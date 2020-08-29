@@ -24,7 +24,11 @@ class Code:
     def contains_in_spot(self, color: Color, spot: int):
         return color == self.colors[spot]
 
-    def evaluate(self, other, used_tries):
+    def compare(self, other):
+        return (self.count_same_color(other),
+                self.count_same_color_and_spot(other))
+
+    def get_points(self, other, used_tries):
         if self.equals(other):
             return Reward.WIN.value - used_tries * Reward.USED_TRIES.value
         return (self.count_same_color_and_spot(other) *

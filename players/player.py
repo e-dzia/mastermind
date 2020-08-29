@@ -28,7 +28,7 @@ class Player:
         game = MastermindGame(code)
         i = 0
         for i in range(rounds):
-            logger.info(f"### ROUND {i} ###")
+            logger.info(f"### ROUND {i + 1} ###")
             self.code = self.next_code(i)
             same_color, same_color_and_spot, points, won = (
                 game.play_round(self.code, i))

@@ -28,7 +28,7 @@ class MastermindGame:
         same_color = self.code.count_same_color(player_code)
         logger.info(f"Good color and spot: {same_color_and_spot}, good color, "
                     f"wrong spot: {same_color}")
-        points = self.code.evaluate(player_code, num_round + 1)
+        points = self.code.get_points(player_code, num_round + 1)
         logger.info(f"Points: {points}")
         if self.code == player_code:
             won = True

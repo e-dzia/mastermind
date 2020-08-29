@@ -3,7 +3,9 @@ import itertools
 import random
 from enum import Enum
 
+from players.enums import SmartStrategy
 from players.player import Player
+from players.possible_codes import PossibleCodes
 from simulator.game_code import Code
 from simulator.color import Color
 
@@ -11,23 +13,13 @@ from simulator.color import Color
 logger = logging.getLogger(__name__)
 
 
-class Strategy(Enum):
-    RANDOM = 0
-    FIRST = 1
-    LAST = 2
-    BEST = 3
-
-
 class SmartPlayer(Player):
     """Smart player works by removing codes that are not possible given
     current feedback"""
 
-    def __init__(self, strategy: Strategy = Strategy.FIRST):
+    def __init__(self, strategy: SmartStrategy = SmartStrategy.FIRST):
         super().__init__()
-        self.possible_codes = []
-        colors = list(Color)
-        colors.remove(Color.EMPTY)
-        self.possible_codes = [p for p in itertools.product(colors, repeat=4)]
+        self.possible_codes = PossibleCodes()
         self.player_colors = self.code.colors
         self.strategy = strategy
 
@@ -37,39 +29,12 @@ class SmartPlayer(Player):
                              Color.YELLOW, Color.YELLOW)
             return self.code
 
-        last_history = self.history[-1]
-        self.player_colors = last_history['code'].colors
-        self.possible_codes.remove(tuple(self.player_colors))
+        self.possible_codes.update(self.history[-1])
 
-        self._update_by_received_stats(last_history['same_color'],
-                                       last_history['same_color_and_spot'])
-
-        logger.info(f"Possible codes: {len(self.possible_codes)}")
-
-        self.code = Code(*self.possible_codes[0])
-        if self.strategy == Strategy.RANDOM:
-            self.code = Code(*random.choice(self.possible_codes))
-        elif self.strategy == Strategy.LAST:
-            self.code = Code(*self.possible_codes[len(self.possible_codes) - 1])
+        self.code = self.possible_codes.get(0)
+        if self.strategy == SmartStrategy.RANDOM:
+            self.code = self.possible_codes.get_random()
+        elif self.strategy == SmartStrategy.LAST:
+            self.code = self.possible_codes.get(len(self.possible_codes) - 1)
 
         return self.code
-
-    def _update_by_received_stats(self, same_color, same_color_and_spot):
-        self._remove_same_color_and_spot(same_color_and_spot)
-        self._remove_same_color(same_color)
-
-    def _remove_same_color(self, number_of_colors):
-        self.possible_codes = [
-            possible_code for possible_code in self.possible_codes
-            if Code(*possible_code).count_same_color(self.code)
-               == number_of_colors]
-
-    def _remove_same_color_and_spot(self, number_of_colors):
-        self.possible_codes = [
-            possible_code for possible_code in self.possible_codes
-            if Code(*possible_code).count_same_color_and_spot(self.code)
-               == number_of_colors]
-
-    def _remove_code(self, code_to_remove):
-        if code_to_remove in self.possible_codes:
-            self.possible_codes.remove(code_to_remove)

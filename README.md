@@ -11,6 +11,7 @@ To run the simulator, run `scripts > play_game.py`
 - UserPlayer - anyone can play and try to win
 - RandomPlayer - totally random, almost never wins
 - SmartPlayer - Smart player works by removing codes that are not possible given current feedback
+- MCTSPlayer - Player using Monte Carlo Tree Search (or rather a strategy based on MCTS)
 
 
 ## Results
@@ -31,4 +32,18 @@ Although they are not very different in concept, they have different outcomes. S
 | RANDOM   | 7.0 | 4.639506 |
 
 As you can see, the RANDOM strategy was the best with the mean of 4.64 rounds to win the game.
+
+## MCTS Player
+
+MCTS Player is non-deterministic, but its playouts take 
+much more time than Smart Player's so I performed only 
+one simulation per possible code 
+and it took [TODO]
+
+
+
+| Strategy         | max  | mean     |
+|------------------|------|----------|
+| GAMES_PERFORMED  | TODO | TODO     |
+| MEAN_REWARD      | TODO | TODO     |
 
