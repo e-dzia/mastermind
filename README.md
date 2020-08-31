@@ -16,6 +16,12 @@ To run the simulator, run `scripts > play_game.py`
 
 ## Results
 
+### State of the art
+
+Donald Knuth [1] proposed a minimax method that requires 4.478 guesses on average to find the code with a maximum of 5 guesses.
+
+**State-of-the-art** result is a depth-first search which Kenji Koyama and Tony W. Lai performed [2] - showing that the optimal method for solving a random code could achieve an average of 5625/1296 = 4.3403 (and a maximum of 6 guesses).
+
 ### Smart Player
 
 Smart Player removes all codes that are not possible given current feedback. He doesn't do anything more. Smart Player has three strategies of choosing next move (after removing codes that are not possible):
@@ -65,3 +71,11 @@ Before choosing a next move (in this case - next code) the player performs multi
 
 In Mastermind the opponent cannot really choose his moves, so I decided to simplify this method and perform simulations only for possible codes at the moment. This means I didn't build the whole tree - just one level. (I don't even know if I can still call it 'MCTS', but I was really inspired by this method. Maybe just 'Monte Carlo' would be better.) 
 
+
+## References
+
+[1] Knuth, Donald (1976–77). "The Computer as Master Mind" ([PDF](http://www.cs.uni.edu/~wallingf/teaching/cs3530/resources/knuth-mastermind.pdf)). J. Recr. Math. (9): 1–6.
+
+[2] Kenji Koyama and Tony W. Lai. An optimal Mastermind Strategy. Journal of Recreational Mathematics, 25(4):251–256, 1993.
+
+[3] Geoffroy Ville. An Optimal Mastermind (4,7) Strategy and More Results in the Expected Case. ([PDF](https://arxiv.org/pdf/1305.1010.pdf)) 2013
