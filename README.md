@@ -24,6 +24,11 @@ Donald Knuth [1] proposed a minimax method that requires 4.478 guesses on averag
 
 ### Smart Player
 
+```python
+main_experiments(player=SmartPlayer(Strategy.FIRST))
+```
+from `scripts > play_game.py`
+
 Smart Player removes all codes that are not possible given current feedback. He doesn't do anything more. Smart Player has three strategies of choosing next move (after removing codes that are not possible):
 - FIRST
 - LAST
@@ -41,6 +46,11 @@ As you can see, the RANDOM strategy was the best with the mean of 4.64 rounds to
 
 ### MCTS Player
 
+```python
+main_experiments(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD))
+```
+from `scripts > play_game.py`
+
 MCTS Player is non-deterministic, but its playouts take much more time than Smart Player's (~30 sec when choosing first codes, ~6 sec whith pre-calculated first codes (see below)) so I performed only one simulation per possible code and it took about ~1h45min to compute.
 
 #### Pre-calculated first codes
@@ -50,24 +60,35 @@ To reduce time, I also performed pre-calculation of the first code to choose (be
 #### Results
 
 MCTS Player has two strategies to choose the next move:
-- GAMES_PERFORMED - it takes only the number of performed simulations
+- GAMES_PERFORMED - it takes only the number of performed simulations (as in original MCTS strategy)
 - MEAN_REWARD - it takes the sum of obtained rewards and divides it by the number of performed simulations
 
 Player chooses a move (code) with the highest value of the corresponding metric.
 
+**Num simulations** is the number of simulations performed in each round. Of course more simulations means more time to compute everything (~10 sec per game), but it *might* produce better results (in my experiments it didn't though).
 
-| Strategy         | max  | mean     |
-|------------------|------|----------|
-| GAMES_PERFORMED  | 7    | 4.492283 |
-| MEAN_REWARD      | 6    | 4.407407 |
 
-Sd you can see, the results are significantly better than from a previous method (Smart Player).
+| Strategy        | Num simulations | max | mean     |
+|-----------------|-----------------|-----|----------|
+| GAMES_PERFORMED | 5 000           | 7   | 4.492283 |
+|                 | 10 000          | 7   | 4.496142 |
+| MEAN_REWARD     | 5 000           | 6   | 4.407407 |
+|                 | 10 000          | 6   | 4.462963 |
+
+As you can see, the results are significantly better than from a previous method (Smart Player).
+
+I also tried the version of this algorithm where the player can use any code (not only possible ones), but it was significantly worse and it took much more time to compute, so I abandoned this version. 
+
+This method can be improved, possible improvements:
+- Other method of choosing nodes to run simulations on (currently it's roulette wheel selection)
+- Other method of choosing next move (other than MEAN_REWARD and GAMES_PERFORMED)
+- Other number of simulations
 
 #### How MCTS works?
 
 [MCTS](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) is a heuristic search algorithm. It is based on the idea of simulations. 
 
-Before choosing a next move (in this case - next code) the player performs multiple simulations of possible outcomes of the game for every possible move. After the first simulations, he uses more frequently the moves with better outcomes. He also simulates the moves of his opponent and of course the opponent chooses moves that are best for him (as in minimax strategy). When he exceeds a given number of simulations (or time), he chooses a move with the biggest number of simulations.
+Before choosing a next move (in this case - a next code) the player performs multiple simulations of possible outcomes of the game for every possible move. After the first simulations, he uses more frequently the moves with better outcomes. He also simulates the moves of his opponent and of course the opponent chooses moves that are best for him (as in the minimax strategy). When he exceeds a given number of simulations (or time), he chooses a move with the biggest number of simulations.
 
 In Mastermind the opponent cannot really choose his moves, so I decided to simplify this method and perform simulations only for possible codes at the moment. This means I didn't build the whole tree - just one level. (I don't even know if I can still call it 'MCTS', but I was really inspired by this method. Maybe just 'Monte Carlo' would be better.) 
 
@@ -79,3 +100,5 @@ In Mastermind the opponent cannot really choose his moves, so I decided to simpl
 [2] Kenji Koyama and Tony W. Lai. An optimal Mastermind Strategy. Journal of Recreational Mathematics, 25(4):251–256, 1993.
 
 [3] Geoffroy Ville. An Optimal Mastermind (4,7) Strategy and More Results in the Expected Case. ([PDF](https://arxiv.org/pdf/1305.1010.pdf)) 2013
+
+[4] Wei-Fu Lu, Ji-Kai Yang, Hsueh-Ting Chu. Playing Mastermind Game by using Reinforcement Learning ([PDF](https://www.computer.org/csdl/pds/api/csdl/proceedings/download-article/12OmNxFsmGq/pdf)). 2017 First IEEE International Conference on Robotic Computing, 2017.

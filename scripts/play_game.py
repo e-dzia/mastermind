@@ -103,7 +103,8 @@ if __name__ == "__main__":
     start = datetime.datetime.now()
 
     # main_experiments(player=SmartPlayer(Strategy.FIRST))
-    main_experiments(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD))
+    main_experiments(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD,
+                                       num_simulations=10000))
     # main_single(player=SmartPlayer(Strategy.FIRST), code=Code(Color.WHITE, Color.WHITE, Color.ORANGE, Color.YELLOW))
     # main_single(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD,
     #                               num_simulations=100000),

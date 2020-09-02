@@ -1,7 +1,4 @@
 import logging
-import itertools
-import random
-from enum import Enum
 
 from players.enums import SmartStrategy
 from players.player import Player

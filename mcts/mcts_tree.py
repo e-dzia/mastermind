@@ -23,7 +23,7 @@ class MCTSTree:
             # print(len(self.possible_codes))
             node = MCTSNode(code=possible_code)
             node.perform_simulation(self.possible_codes,
-                                    next_code=Code(*possible_code))
+                                    next_code=possible_code)
             self.nodes.append(node)
 
         # then, we perform a simulation for remaining number of tries
@@ -34,7 +34,7 @@ class MCTSTree:
             #     print(i)
             node = self._get_best_node()
             node.perform_simulation(self.possible_codes,
-                                    next_code=Code(*node.code))
+                                    next_code=node.code)
         # print(sorted(self.nodes, key=lambda x: (x.games_performed, x.results), reverse=True))
 
     def _get_best_node(self):
@@ -68,7 +68,7 @@ class MCTSTree:
             if node.games_performed > max_games:
                 max_games = node.games_performed
                 best_node = node
-        return Code(*best_node.code)
+        return best_node.code
 
     def get_best_move_by_mean_reward(self):
         # get code which has the best mean reward
@@ -78,4 +78,4 @@ class MCTSTree:
             if node.results/node.games_performed > max_mean_reward:
                 max_mean_reward = node.results/node.games_performed
                 best_node = node
-        return Code(*best_node.code)
+        return best_node.code
