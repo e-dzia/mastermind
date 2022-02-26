@@ -112,3 +112,7 @@ class TestCode(unittest.TestCase):
     def test_contains_in_spot(self, name, c1: Code, color: Color, spot: int,
                               result: bool):
         self.assertEqual(result, c1.contains_in_spot(color, spot))
+
+
+if __name__ == '__main__':
+    unittest.main()

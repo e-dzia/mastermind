@@ -3,7 +3,6 @@ import logging
 
 from simulator.game_code import Code
 from simulator.color import Color
-from simulator.reward import Reward
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +17,7 @@ class MastermindGame:
         else:
             self.code = code
 
-        logger.info(self.code)
+        logger.debug(self.code)
         # print(self.player)
 
     def play_round(self, player_code, num_round):

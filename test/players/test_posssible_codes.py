@@ -61,3 +61,7 @@ class TestPossibleCodes(unittest.TestCase):
         codes = PossibleCodes()
         codes.update(history)
         self.assertEqual(result, len(codes))
+
+
+if __name__ == '__main__':
+    unittest.main()

@@ -1,34 +1,17 @@
+import argparse
 import datetime
 import itertools
-import os
 
-from mcts.enums import MCTSStrategy
-from mcts.mcts_player import MCTSPlayer
 from players.player import Player
 from players.smart_player import SmartPlayer, SmartStrategy
+from scripts.utils import decode_player_and_strategy
 from simulator.color import Color
-from players.user_player import UserPlayer
 import logging
 import numpy as np
 import pandas as pd
 
 from simulator.game_code import Code
-
-
-def main_single(player: Player, code: Code = None):
-    logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
-
-    print("ready")
-
-    if code is None:
-        code = Code(Color.ORANGE, Color.PURPLE, Color.ORANGE, Color.YELLOW)
-
-    if player is None:
-        player = SmartPlayer()
-
-    round = player.play_game(50, code)
-
-    print(round + 1)
+from settings import PROJECT_PATH
 
 
 def main_experiments(player: Player = None):
@@ -49,23 +32,16 @@ def main_experiments(player: Player = None):
         # print(possible_code)
         code = Code(*possible_code)
         player.reset()
-        round = player.play_game(50, code)
-        rounds.append(round + 1)
+        num_round = player.play_game(rounds=50, code=code)
+        rounds.append(num_round + 1)
 
         end = datetime.datetime.now()
-        print(f"Code: {possible_code}, time: {end - start}, rounds: {round + 1}")
+        # print(f"Code: {possible_code}, time: {end - start}, rounds: {num_round + 1}")
     print(f"Number of games: {len(rounds)}")
     print(f"Mean: {np.mean(rounds)}")
     print(f"Max: {max(rounds)}")
     print(f"Min: {min(rounds)}")
     return np.mean(rounds), max(rounds)
-
-
-def main_user():
-    logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
-
-    player = UserPlayer()
-    player.play_game()
 
 
 def main_experiments_results():
@@ -84,7 +60,7 @@ def main_experiments_results():
 
     res_mean_list = []
     res_max_list = []
-    for i in range(10):
+    for i in range(50):
         print(i)
         res_mean, res_max = main_experiments(SmartPlayer(SmartStrategy.RANDOM))
         res_mean_list.append(res_mean)
@@ -96,19 +72,27 @@ def main_experiments_results():
 
     print(results)
 
-    results.to_csv('../results/results.csv')
+    results.to_csv(f'{PROJECT_PATH}/results/results.csv')
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("player", help="Player to use, one of 'smart', 'mcts'")
+    parser.add_argument("strategy",
+                        help="Strategy to use, one of 'games_performed', 'mean_reward' (for 'mcst' player) or one of 'first', 'last', 'random' (for 'smart' player)")
+    parser.add_argument("--num_simulations",
+                        help="Number of simulationd of the MCTS player, defaults to 1000",
+                        required=False, default=1000, type=int)
+    args = parser.parse_args()
+
     start = datetime.datetime.now()
 
-    # main_experiments(player=SmartPlayer(Strategy.FIRST))
-    main_experiments(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD,
-                                       num_simulations=10000))
-    # main_single(player=SmartPlayer(Strategy.FIRST), code=Code(Color.WHITE, Color.WHITE, Color.ORANGE, Color.YELLOW))
-    # main_single(player=MCTSPlayer(MCTSStrategy.MEAN_REWARD,
-    #                               num_simulations=100000),
-    #             code=Code(Color.PINK, Color.PURPLE, Color.WHITE, Color.RED))
+    if args.strategy != 'all':
+        main_experiments(player=decode_player_and_strategy(args.player, args.strategy, args.num_simulations))
+    elif args.player == 'smart' and args.strategy == 'all':
+        main_experiments_results()
+    else:
+        raise Exception("Wrong parameters")
 
     end = datetime.datetime.now()
     print(f"Time: {end - start}")

@@ -60,3 +60,15 @@ class Code:
 
     def __str__(self):
         return str(self.colors)
+
+    def set_from_string(self, value):
+        """Set colors of this Code object from string.
+
+        :param value: string with chosen code, e.g. "0123" translates to WHITE, YELLOW, ORANGE, RED
+        :return:
+        """
+        code_list = []
+        for spot in value:
+            if int(spot) in [int(color.value) for color in list(Color)]:
+                code_list.append(Color(int(spot)))
+        self.colors = code_list

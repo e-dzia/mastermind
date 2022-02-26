@@ -1,7 +1,5 @@
 import copy
 
-from anytree import AnyNode
-
 from players.possible_codes import PossibleCodes
 from simulator.game_code import Code
 from simulator.reward import Reward

@@ -1,8 +1,6 @@
 import copy
 import random
 
-from anytree import AnyNode, RenderTree
-
 from mcts.mcts_node import MCTSNode
 from mcts.mcts_player import MCTSStrategy
 from players.possible_codes import PossibleCodes

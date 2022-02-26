@@ -3,7 +3,7 @@ import pickle
 from copy import deepcopy
 from datetime import datetime
 
-from anytree import AnyNode, RenderTree
+from anytree import AnyNode
 
 from players.smart_player import SmartPlayer
 from simulator.color import Color
