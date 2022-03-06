@@ -2,7 +2,7 @@
 
 ## Simulator
 
-A simulator of the [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game) game.
+A simulator of the [Mastermind](https://en.wikipedia.org/wiki/Mastermind_(board_game)) game.
 
 To run the simulator, run `scripts/play_game.py`.
 
@@ -67,8 +67,7 @@ from `scripts/experiments.py`
 
 MCTS Player is non-deterministic, but its playouts take much more time than 
 Smart Player's (~30 sec when choosing first codes, ~6 sec whith pre-calculated 
-first codes (see below)) so I performed only one simulation per possible code 
-and it took about ~1h45min to compute.
+first codes (see below)) so I performed only 10 simulations per possible code.
 
 #### Pre-calculated first codes
 
@@ -96,13 +95,15 @@ it didn't though).
 
 | Strategy        | Num simulations | max | mean     |
 |-----------------|-----------------|-----|----------|
-| GAMES_PERFORMED | 5 000           | 7   | 4.492283 |
-|                 | 10 000          | 7   | 4.496142 |
-| MEAN_REWARD     | 5 000           | 6   | 4.407407 |
-|                 | 10 000          | 6   | 4.462963 |
+| GAMES_PERFORMED | 5 000           | 7   | 4.532484 |
+|                 | 10 000          | 7   | 4.507948 |
+| MEAN_REWARD     | 5 000           | 7   | 4.442747 |
+|                 | 10 000          | 7   | 4.436420 |
+
+ (10 simulations for each code)
 
 As you can see, the results are significantly better than from a previous method
- (Smart Player) - mean of 4.41 to win the game.
+ (Smart Player) - mean of 4.44 to win the game.
 
 I also tried the version of this algorithm where the player can use any code 
 (not only possible ones), but it was significantly worse and it took much more 
