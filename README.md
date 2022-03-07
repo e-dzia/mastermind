@@ -88,7 +88,7 @@ the number of performed simulations
 Player chooses a move (code) with the highest value of the corresponding metric.
 
 **Num simulations** is the number of simulations performed in each round. 
-Of course more simulations means more time to compute everything 
+Of course even more simulations means more time to compute everything 
 (~10 sec per game), but it *might* produce better results (in my experiments 
 it didn't though).
 

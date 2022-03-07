@@ -1,9 +1,4 @@
-parameterized
-numpy
-tqdm
-anytree
-pickle
-logging
-pandas
-unittest
-argparse
+numpy == 1.17.3
+tqdm == 4.38.0
+anytree == 2.8.0
+pandas == 0.25.2
