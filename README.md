@@ -95,9 +95,11 @@ it didn't though).
 
 | Strategy        | Num simulations | max | mean     |
 |-----------------|-----------------|-----|----------|
-| GAMES_PERFORMED | 5 000           | 7   | 4.532484 |
+| GAMES_PERFORMED | 10              | 9   | 4.885416 |
+|                 | 5 000           | 7   | 4.532484 |
 |                 | 10 000          | 7   | 4.507948 |
-| MEAN_REWARD     | 5 000           | 7   | 4.442747 |
+| MEAN_REWARD     | 10              | 8   | 4.588888 |
+|                 | 5 000           | 7   | 4.442747 |
 |                 | 10 000          | 7   | 4.436420 |
 
  (10 simulations for each code)
