@@ -22,7 +22,7 @@ class MCTSPlayer(SmartPlayer):
         if len(self.history) == 0:
             # top 10 codes for 100 000 simulations for both of the strategies
             # (20 codes total)
-            return random.choice([
+            self.code = random.choice([
                 Code(Color.ORANGE, Color.PINK, Color.WHITE, Color.YELLOW),
                 Code(Color.PURPLE, Color.WHITE, Color.PINK, Color.PINK),
                 Code(Color.PURPLE, Color.ORANGE, Color.RED, Color.ORANGE),
@@ -44,6 +44,7 @@ class MCTSPlayer(SmartPlayer):
                 Code(Color.ORANGE, Color.PINK, Color.ORANGE, Color.RED),
                 Code(Color.YELLOW, Color.RED, Color.PINK, Color.PINK),
             ])
+            return self.code
         self.possible_codes.update(self.history[-1])
         self.tree = MCTSTree(self.code, self.possible_codes)
         self.tree.build_tree(num_simulations=self.num_simulations)
