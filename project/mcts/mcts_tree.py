@@ -56,7 +56,7 @@ class MCTSTree:
         elif strategy == MCTSStrategy.MEAN_REWARD:
             return self.get_best_move_by_mean_reward()
         else:
-            return self.get_best_move_by_games_performed()
+            return self.get_best_move_by_mean_reward()
 
     def get_best_move_by_games_performed(self):
         # get code which was simulated the most
