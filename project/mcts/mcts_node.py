@@ -13,9 +13,9 @@ class MCTSNode():
 
     def perform_simulation(self, possible_codes_old: PossibleCodes,
                            next_code: Code=None, max_round_length=10):
-        possible_codes = copy.copy(possible_codes_old)
-        if len(possible_codes) == 0:
+        if len(possible_codes_old) == 0:
             return 0
+        possible_codes = copy.copy(possible_codes_old)
         if next_code is None:
             next_code = possible_codes.get_random()
         i = 0
