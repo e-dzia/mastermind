@@ -11,6 +11,7 @@ from simulator.color import Color
 import logging
 import numpy as np
 import pandas as pd
+from tqdm import tqdm
 
 from simulator.game_code import Code
 from settings import PROJECT_PATH
@@ -40,7 +41,7 @@ def main_experiments_all_codes(player: Player = None):
         player = SmartPlayer(strategy=SmartStrategy.FIRST)
 
     rounds = []
-    for possible_code in possible_codes:
+    for possible_code in tqdm(possible_codes):
 
         start = datetime.datetime.now()
 
@@ -125,10 +126,10 @@ if __name__ == "__main__":
     start = datetime.datetime.now()
 
     if args.strategy != 'all':
-        main_experiments(
+        print(main_experiments(
             player=decode_player_and_strategy(args.player, args.strategy,
                                               args.num_simulations),
-            num_experiments=args.num_experiments)
+            num_experiments=args.num_experiments))
     elif args.player == 'smart' and args.strategy == 'all':
         main_experiments_smart(args.num_experiments)
     elif args.player == 'mcts' and args.strategy == 'all':

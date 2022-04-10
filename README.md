@@ -117,6 +117,23 @@ wheel selection)
 - Other method of choosing next move (other than MEAN_REWARD and GAMES_PERFORMED)
 - Other number of simulations
 
+#### Results - tournament selection
+
+Tournament selection is the type of node selection where at first step 
+`k` nodes are chosen randomly and then the best one is selected.
+
+| Strategy        | Num simulations | max | mean     |
+|-----------------|-----------------|-----|----------|
+| GAMES_PERFORMED | 10              | 9   | 4.844444 |
+|                 | 5 000           | x   | x |
+|                 | 10 000          | x   | x |
+| MEAN_REWARD     | 10              | 7   | 4.576929 |
+|                 | 5 000           | x   | x |
+|                 | 10 000          | x   | x |
+
+As far, the results are alike for the mean_reward strategy, but far worse for 
+games_performed strategy.
+
 #### How MCTS works?
 
 [MCTS](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search) is a heuristic 
